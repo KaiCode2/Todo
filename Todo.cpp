@@ -1,6 +1,6 @@
 /* Created by Kai Aldag on January 6th, 2016
 
-This module
+TODO: write file info
 
 Examples:
   Todo new "write email to dan"
@@ -16,7 +16,22 @@ Examples:
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <iostream>
+#include <getopt.h>
+
+static const char *optstring = "hn:d:l";
+
+bool do_help, do_new, do_done, do_list = false;
+char *task_id;
+
+static struct option longopts[] = {
+  { "help", optional_argument, NULL, 'h'},
+  { "new",  optional_argument, NULL,  'n'},
+  { "done", optional_argument, NULL, 'd'},
+  { "list", optional_argument, NULL, 'l'},
+  { NULL,   0,                 NULL ,     0}
+};
 
 static void show_help(std::string name) {
   std::cerr << "Usage: " << name
@@ -40,12 +55,52 @@ static void show_help(std::string name) {
               << std::endl;
 }
 
-int main(int argc, const char* argv[]) {
+int main(int argc, char* const argv[]) {
   if (argc < 2) {
     show_help(argv[0]);
-    return 0;
+    return EXIT_SUCCESS;
   }
 
-  // TODO: parse input and handle it
-  return 0;
+  int ch;
+
+  while ((ch = getopt_long(argc, argv, optstring, longopts, NULL)) != -1) {
+    switch (ch) {
+      case 'h':
+            std::cout << "Help\n";
+            do_help = true;
+            break;
+      case 'n':
+            std::cout << "New " << optarg << "\n";
+            do_new = true;
+            task_id = optarg;
+            break;
+      case 'd':
+            std::cout << "Done " << optarg << "\n";
+            do_done = true;
+            task_id = optarg;
+            break;
+      case 'l':
+            std::cout << "List\n";
+            do_list = true;
+            break;
+      case '?':
+          std::cout << "Unknown argument supplied.\n";
+          break;
+    }
+  }
+
+  std::cout << do_help << do_new << do_done << do_list << "\n";
+  // std::cout << task_id << "\n"; // This can be nil so check!
+
+  if (do_help) {
+    show_help(argv[0]);
+  } else if (do_list) {
+    // TODO: list tasks
+  } else if (do_new && task_id != NULL) {
+    // TODO: create task
+  } else if (do_done && task_id != NULL) {
+    // TODO: delete task
+  }
+
+  return EXIT_SUCCESS;
 }
