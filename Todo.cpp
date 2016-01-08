@@ -19,6 +19,8 @@ Examples:
 #include <stdlib.h>
 #include <iostream>
 #include <getopt.h>
+#include <fstream>
+
 
 static const char *optstring = "hn:d:l";
 
@@ -30,7 +32,7 @@ static struct option longopts[] = {
   { "new",  optional_argument, NULL,  'n'},
   { "done", optional_argument, NULL, 'd'},
   { "list", optional_argument, NULL, 'l'},
-  { NULL,   0,                 NULL ,     0}
+  { NULL,   0,                 NULL , 0}
 };
 
 static void show_help(std::string name) {
@@ -88,10 +90,7 @@ int main(int argc, char* const argv[]) {
           break;
     }
   }
-
-  std::cout << do_help << do_new << do_done << do_list << "\n";
-  // std::cout << task_id << "\n"; // This can be nil so check!
-
+  
   if (do_help) {
     show_help(argv[0]);
   } else if (do_list) {
