@@ -1,4 +1,7 @@
-/* Created by Kai Aldag on January 6th, 2016
+/*
+Todo.cpp
+
+Created by Kai Aldag on January 6th, 2016
 
 TODO: write file info
 
@@ -20,6 +23,7 @@ Examples:
 #include <iostream>
 #include <getopt.h>
 #include <fstream>
+#include "Task.h"
 
 
 static const char *optstring = "hn:d:l";
@@ -90,7 +94,10 @@ int main(int argc, char* const argv[]) {
           break;
     }
   }
-  
+
+  // TODO: open up _todo_entries.txt and use it for reading and writing task info
+
+
   if (do_help) {
     show_help(argv[0]);
   } else if (do_list) {
